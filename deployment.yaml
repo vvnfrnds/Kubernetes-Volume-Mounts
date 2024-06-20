@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python
+  namespace: config
+  labels:
+    app: python
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: python
+  template:
+    metadata:
+      labels:
+        app: python
+    spec:
+      containers:
+      - name: python
+        image: abhishekf5/python-sample-app-demo:v1
+        volumeMounts: 
+         - name: dbconnection
+           mountPath: /opt
+        ports:
+        - containerPort: 8000
+      volumes:
+      - name: dbconnection
+        configMap:
+          name: py-config
